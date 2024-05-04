@@ -21,35 +21,59 @@
 --|
 --+----------------------------------------------------------------------------
 --|
---| ALU OPCODES:
---|
---|     ADD     000
---|
---|
+--|  Instruction | Opcode | Function    |
+--| ------------ | ------ | ----------- |
+--| ADD          | 000    | A + B       |
+--| SUB          | 001    | A-B         |
+--| Or           | 010    | A or B      |
+--| And          | 011    | A and B     |
+--| Left Shift   | 100    | A << B(2:0) |
+--| Right Shift  | 101    | A >> B(2:0) |
 --|
 --|
 --+----------------------------------------------------------------------------
 library ieee;
   use ieee.std_logic_1164.all;
   use ieee.numeric_std.all;
-
-
+  use IEEE.numeric_std.ALL;
 entity ALU is
--- TODO
+    port(
+    -- inputs
+    i_A     :   in std_logic_vector(7 downto 0); 
+    i_op      :   in std_logic_vector(3 downto 0);
+    i_B    :   in std_logic_vector(7 downto 0); 
+    
+    -- outputs
+    o_result :   out std_logic_vector(7 downto 0);
+    o_flags :   out std_logic_vector(2 downto 0)
+    );
 end ALU;
 
 architecture behavioral of ALU is 
   
-	-- declare components and signals
-
-  
+  signal w_sum: std_logic_vector(7 downto 0);
+  signal w_shift: std_logic_vector(7 downto 0);
+  signal w_and: std_logic_vector(7 downto 0);
+  signal w_or: std_logic_vector(7 downto 0);
 begin
-	-- PORT MAPS ----------------------------------------
 
-	
+
+	-- PORT MAPS ----------------------------------------
 	
 	-- CONCURRENT STATEMENTS ----------------------------
-	
+	w_sum <= std_logic_vector(unsigned(i_A) + unsigned(i_B)) when i_op(3) = '0' else
+	         std_logic_vector(unsigned(i_A) - unsigned(i_B)) when i_op(3) = '1' else 
+	         i_A;
+	w_and <= i_A and i_B;
+	w_or <= i_A or i_B;
+	w_shift <= std_logic_vector(shift_left(unsigned(i_A), to_integer(unsigned(i_B(2 downto 0))))) when i_op(0) = '0' else
+	           std_logic_vector(shift_right(unsigned(i_A), to_integer(unsigned(i_B(2 downto 0))))) when i_op(0) = '1' else
+	           i_A;
+	o_result <= w_sum when i_op(2 downto 0) = "000" else
+	           w_and when i_op(2 downto 0) = "001" else
+	            w_or when i_op(2 downto 0) = "010" else
+	           w_shift when i_op(2 downto 0) = "100" else
+	            i_A;
 	
 	
 end behavioral;
