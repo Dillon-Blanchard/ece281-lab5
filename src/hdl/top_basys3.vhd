@@ -191,8 +191,7 @@ begin
         led(12 downto 4) <= (others => '0');
         w_bin <= w_regA when w_cycle = "0010" else
                  w_regB when w_cycle = "0100" else
-                 w_result when w_cycle = "1000" else
-                 "00000000";
+                 w_result when w_cycle = "1000";
                 
         
 	

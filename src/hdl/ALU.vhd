@@ -55,25 +55,33 @@ architecture behavioral of ALU is
   signal w_shift: std_logic_vector(7 downto 0);
   signal w_and: std_logic_vector(7 downto 0);
   signal w_or: std_logic_vector(7 downto 0);
+  signal w_check: std_logic_vector(7downto 0);
+  
+  
 begin
 
 
 	-- PORT MAPS ----------------------------------------
 	
 	-- CONCURRENT STATEMENTS ----------------------------
-	w_sum <= std_logic_vector(unsigned(i_A) + unsigned(i_B)) when i_op(3) = '0' else
-	         std_logic_vector(unsigned(i_A) - unsigned(i_B)) when i_op(3) = '1' else 
-	         i_A;
+	w_sum <= std_logic_vector(signed(i_A) + signed(i_B)) when i_op(3) = '0' else
+	         std_logic_vector(signed(i_A) - signed(i_B)) when i_op(3) = '1';
 	w_and <= i_A and i_B;
 	w_or <= i_A or i_B;
-	w_shift <= std_logic_vector(shift_left(unsigned(i_A), to_integer(unsigned(i_B(2 downto 0))))) when i_op(0) = '0' else
-	           std_logic_vector(shift_right(unsigned(i_A), to_integer(unsigned(i_B(2 downto 0))))) when i_op(0) = '1' else
-	           i_A;
+	w_shift <= std_logic_vector(shift_left(unsigned(i_A), to_integer(unsigned(i_B(2 downto 0))))) when i_op(3) = '0' else
+	           std_logic_vector(shift_right(unsigned(i_A), to_integer(unsigned(i_B(2 downto 0))))) when i_op(3) = '1';
 	o_result <= w_sum when i_op(2 downto 0) = "000" else
 	           w_and when i_op(2 downto 0) = "001" else
 	            w_or when i_op(2 downto 0) = "010" else
-	           w_shift when i_op(2 downto 0) = "100" else
-	            i_A;
+	           w_shift when i_op(2 downto 0) = "100";
+    w_check <= w_sum when i_op(2 downto 0) = "000" else
+                              w_and when i_op(2 downto 0) = "001" else
+                               w_or when i_op(2 downto 0) = "010" else
+                              w_shift when i_op(2 downto 0) = "100";
+	o_flags(0) <= not (i_A(7) xor i_B(7)) when i_op = "0000";
+	o_flags(1) <= '1' when (i_A = i_B) and i_op = "1000";
+	o_flags(3) <= '1' when (w_check(7) = '1');
+	
 	
 	
 end behavioral;
