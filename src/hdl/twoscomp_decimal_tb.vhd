@@ -13,10 +13,10 @@ architecture Behavioral of twoscomp_decimal_tb is
     component twoscomp_decimal is
         port (
             i_binary: in std_logic_vector(7 downto 0);
-            o_negative: out std_logic;
             o_hundreds: out std_logic_vector(3 downto 0);
             o_tens: out std_logic_vector(3 downto 0);
-            o_ones: out std_logic_vector(3 downto 0)
+            o_ones: out std_logic_vector(3 downto 0);
+            o_negative: out std_logic_vector
         );
     end component twoscomp_decimal;
 
