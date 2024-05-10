@@ -16,12 +16,12 @@ architecture Behavioral of twoscomp_decimal_tb is
             o_hundreds: out std_logic_vector(3 downto 0);
             o_tens: out std_logic_vector(3 downto 0);
             o_ones: out std_logic_vector(3 downto 0);
-            o_negative: out std_logic_vector
+            o_negative: out std_logic_vector(3 downto 0)
         );
     end component twoscomp_decimal;
 
     signal w_binary: std_logic_vector(7 downto 0) := (others => '0');
-    signal w_negative: std_logic_vector;
+    signal w_negative: std_logic_vector(3 downto 0);
     signal w_hundreds: std_logic_vector(3 downto 0);
     signal w_tens: std_logic_vector(3 downto 0);
     signal w_ones: std_logic_vector(3 downto 0);
@@ -41,23 +41,23 @@ begin
     begin
         w_binary <= "00000000";
         wait for 10 ns;
-        assert w_negative = '0' and w_hundreds = "0000" and w_tens = "0000" and w_ones = "0000" report "Bad convert 0" severity error;
+        assert w_negative = "0000" and w_hundreds = "0000" and w_tens = "0000" and w_ones = "0000" report "Bad convert 0" severity error;
         
         w_binary <= "11110000";
         wait for 10 ns;
-        assert w_negative = '1' and w_hundreds = "0000" and w_tens = "0001" and w_ones = "0110" report "Bad convert -16" severity error;
+        assert w_negative = "0001" and w_hundreds = "0000" and w_tens = "0001" and w_ones = "0110" report "Bad convert -16" severity error;
         
         w_binary <= "00111010";
         wait for 10 ns;
-        assert w_negative = '0' and w_hundreds = "0000" and w_tens = "0101" and w_ones = "1000" report "Bad convert 58" severity error;
+        assert w_negative = "0000" and w_hundreds = "0000" and w_tens = "0101" and w_ones = "1000" report "Bad convert 58" severity error;
         
         w_binary <= "01101111";
         wait for 10 ns;
-        assert w_negative = '0' and w_hundreds = "0001" and w_tens = "0001" and w_ones = "0001" report "Bad convert 111" severity error;
+        assert w_negative = "0000" and w_hundreds = "0001" and w_tens = "0001" and w_ones = "0001" report "Bad convert 111" severity error;
         
         w_binary <= "10001000";
         wait for 10 ns;
-        assert w_negative = '1' and w_hundreds = "0001" and w_tens = "0010" and w_ones = "0000" report "Bad convert -120" severity error;
+        assert w_negative = "0001" and w_hundreds = "0001" and w_tens = "0010" and w_ones = "0000" report "Bad convert -120" severity error;
 
         wait;
     end process;
