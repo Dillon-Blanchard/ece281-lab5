@@ -55,7 +55,7 @@ architecture behavioral of ALU is
   signal w_shift: std_logic_vector(7 downto 0);
   signal w_and: std_logic_vector(7 downto 0);
   signal w_or: std_logic_vector(7 downto 0);
-  signal w_check: std_logic_vector(7downto 0);
+  signal w_check: std_logic_vector(7 downto 0);
   
   
 begin
@@ -78,9 +78,9 @@ begin
                               w_and when i_op(2 downto 0) = "001" else
                                w_or when i_op(2 downto 0) = "010" else
                               w_shift when i_op(2 downto 0) = "100";
-	o_flags(0) <= not (i_A(7) xor i_B(7)) when i_op = "0000";
-	o_flags(1) <= '1' when (i_A = i_B) and i_op = "1000";
-	o_flags(3) <= '1' when (w_check(7) = '1');
+	--o_flags(0) <= not (i_A(7) xor i_B(7)) when i_op = "0000";
+	--o_flags(1) <= '1' when (i_A = i_B) and i_op = "1000";
+	--o_flags(3) <= '1' when (w_check(7) = '1');
 	
 	
 	

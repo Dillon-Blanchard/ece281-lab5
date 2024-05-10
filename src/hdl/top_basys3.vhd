@@ -63,6 +63,8 @@ component clock_divider is
 component controller_fsm is
                                       Port ( i_reset   : in  STD_LOGIC;
                                              i_adv    : in  STD_LOGIC;
+                                             i_btnU   : in std_logic;
+                                             i_btnC   : in std_logic;
                                              o_cycle   : out STD_LOGIC_VECTOR (3 downto 0)           
                                            );
                                   end component controller_fsm;
@@ -177,6 +179,8 @@ begin
   	uut_inst : controller_fsm port map (
                 i_reset   => btnU,
                 i_adv    => btnC,
+                i_btnU => btnU,
+                i_btnC => btnC,
                 o_cycle   => w_cycle
             );
             

@@ -21,7 +21,7 @@ architecture Behavioral of twoscomp_decimal_tb is
     end component twoscomp_decimal;
 
     signal w_binary: std_logic_vector(7 downto 0) := (others => '0');
-    signal w_negative: std_logic;
+    signal w_negative: std_logic_vector;
     signal w_hundreds: std_logic_vector(3 downto 0);
     signal w_tens: std_logic_vector(3 downto 0);
     signal w_ones: std_logic_vector(3 downto 0);
